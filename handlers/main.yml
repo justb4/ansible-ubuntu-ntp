@@ -1,0 +1,6 @@
+---
+- name: reconfigure tzdata
+  command: dpkg-reconfigure -f noninteractive tzdata
+
+- name: restart ntp
+  service: name=ntp state=restarted
