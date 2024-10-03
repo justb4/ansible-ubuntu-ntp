@@ -16,14 +16,40 @@ For more advanced stuff like adding Users, Postfix Docker I use great Roles from
 
 ## Install
 
+Install and name it `justb4.ubuntu-ntp`.
+
 ```bash
 
- ansible-galaxy install https://github.com/justb4/ansible-ubuntu-ntp
+ ansible-galaxy install https://github.com/justb4/ansible-ubuntu-nt,,justb4.ubuntu-ntp,,justb4.ubuntu-ntp
  
  # or locally in specific dir
  
- ansible-galaxy install --roles-path ./roles https://github.com/justb4/ansible-ubuntu-ntp
+ ansible-galaxy install --roles-path ./roles https://github.com/justb4/ansible-ubuntu-ntp,,justb4.ubuntu-ntp
 
+
+```
+
+Or with a typical `requirements.yml` file:
+
+```
+# Installs from Ansible galaxy
+- src: sansible.users_and_groups
+  version: v2.0.5
+
+- src: geerlingguy.pip
+  version: 3.0.3
+
+- src: geerlingguy.docker
+  version: 7.4.1
+
+# from GitHub
+- src: https://github.com/justb4/ansible-ubuntu-base
+  name: justb4.ubuntu-base
+  version: v1.5
+
+- src: https://github.com/justb4/ansible-ubuntu-ntp
+  name: justb4.ubuntu-ntp
+  version: v1.0
 
 ```
 
@@ -40,10 +66,7 @@ This sketches how I use this with the `ubuntu-base-role`.
 
   roles:
 
-    - name: ansible-ubuntu-base
-      tags: ubuntu-base
-
-    - name: ansible-ubuntu-ntp
+    - name: justb4.ubuntu-ntp
       tags: ubuntu-ntp
 
 ```
