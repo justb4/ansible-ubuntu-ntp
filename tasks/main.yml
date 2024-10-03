@@ -1,11 +1,4 @@
 ---
-- name: configure timezone
-  template:
-    src: timezone
-    dest: /etc/timezone
-    owner: root
-    group: root
-  notify: reconfigure tzdata
 
 - name: install tzdata
   apt: pkg=tzdata state=present
@@ -17,11 +10,13 @@
   service: name=ntp state=started enabled=true
 
 - name: set ntp server
-  lineinfile: dest=/etc/ntp.conf state=present regexp='^server ' line='server {{ ntp_server }} iburst'
+  lineinfile: dest=/etc/ntpsec/ntp.conf state=present regexp='^server ' line='server {{ ntp_server }} iburst'
   notify: restart ntp
 
 # Note that there may be more than one 'server' line in this file (hence we
 # cannot do this with just one regexp rule).
 - name: remove all other ntp servers
-  lineinfile: dest=/etc/ntp.conf state=absent regexp="^server\s+(?!{{ ntp_server }})"
+  lineinfile: dest=/etc/ntpsec/ntp.conf state=absent regexp="^server\s+(?!{{ ntp_server }})"
   notify: restart ntp
+
+- shell: "timedatectl set-timezone {{ timezone }}"
